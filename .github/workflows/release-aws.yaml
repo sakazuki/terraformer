@@ -22,8 +22,10 @@ jobs:
         run: go run build/main.go aws -o terraformer-aws-linux-amd64
       #- name: Build for linux/arm64
       #  run: GOOS=linux GOARCH=arm64 go run build/main.go aws -o terraformer-aws-linux-arm64
+      - name: clean cache
+        run: go clean -cache
       - name: Build for mac
-        run: GOOS=darwin GOARCH=amd64 go run build/main.go aws -o terraformer-aws-darwin-amd64
+        run: GOOS=darwin go run build/main.go aws -o terraformer-aws-darwin-amd64
       #- name: Build for mac Apple Silicon
       #  run: GOOS=darwin GOARCH=arm64 go run build/main.go -o terraformer-aws-darwin-arm64
       #- name: Build for windows
