@@ -126,7 +126,7 @@ func providerGenerators() map[string]func() terraformutils.ProviderGenerator {
 		newDataDogProvider,
 		newNewRelicProvider,
 		newPagerDutyProvider,
-		newHoneycombProvider,
+		//newHoneycombProvider,
 		// Community
 		newKeycloakProvider,
 		newLogzioProvider,
