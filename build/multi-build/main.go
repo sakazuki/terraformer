@@ -16,18 +16,18 @@ const packageCmdPath = "cmd"
 
 func main() {
 	// provider := os.Args[1]
-	allProviders := []string{}
+	allProviders := []string{"aws"}
 	files, err := ioutil.ReadDir(packageCmdPath)
 	if err != nil {
 		log.Println(err)
 	}
-	for _, f := range files {
-		if strings.HasPrefix(f.Name(), filePrefix) {
-			providerName := strings.ReplaceAll(f.Name(), filePrefix, "")
-			providerName = strings.ReplaceAll(providerName, fileSuffix, "")
-			allProviders = append(allProviders, providerName)
-		}
-	}
+	//for _, f := range files {
+	//	if strings.HasPrefix(f.Name(), filePrefix) {
+	//		providerName := strings.ReplaceAll(f.Name(), filePrefix, "")
+	//		providerName = strings.ReplaceAll(providerName, fileSuffix, "")
+	//		allProviders = append(allProviders, providerName)
+	//	}
+	//}
 	for _, OS := range []string{"linux", "windows", "mac"} {
 		for _, provider := range allProviders {
 			GOOS := ""
