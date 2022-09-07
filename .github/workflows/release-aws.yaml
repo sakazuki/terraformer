@@ -18,14 +18,14 @@ jobs:
           go-version: 1.19
       #- name: Test
       #  run: go build -v && go test ./...
-      - name: Build for linux/amd64
-        run: go run build/main.go aws -o terraformer-aws-linux-amd64
+      - name: Build for mac
+        run: GOOS=darwin go run build/main.go aws -o terraformer-aws-darwin-amd64
       #- name: Build for linux/arm64
       #  run: GOOS=linux GOARCH=arm64 go run build/main.go aws -o terraformer-aws-linux-arm64
       - name: clean cache
-        run: go clean 
-      - name: Build for mac
-        run: GOOS=darwin go run build/main.go aws -o terraformer-aws-darwin-amd64
+        run: go clean -i -r -cache
+      - name: Build for linux/amd64
+        run: go run build/main.go aws -o terraformer-aws-linux-amd64
       #- name: Build for mac Apple Silicon
       #  run: GOOS=darwin GOARCH=arm64 go run build/main.go -o terraformer-aws-darwin-arm64
       #- name: Build for windows
