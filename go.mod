@@ -14,7 +14,7 @@ require (
 	github.com/IBM/go-sdk-core/v3 v3.3.1
 	github.com/IBM/go-sdk-core/v4 v4.9.0
 	github.com/IBM/ibm-cos-sdk-go v1.5.0
-	github.com/IBM/keyprotect-go-client v0.6.0
+	github.com/IBM/keyprotect-go-client v0.8.1
 	github.com/IBM/networking-go-sdk v0.30.0
 	github.com/IBM/platform-services-go-sdk v0.26.1
 	github.com/IBM/vpc-go-sdk v0.4.1
@@ -51,11 +51,11 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/cognitoidentity v1.2.1
 	github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider v1.2.1
 	github.com/aws/aws-sdk-go-v2/service/configservice v1.25.4
-	github.com/aws/aws-sdk-go-v2/service/datapipeline v1.13.6
+	github.com/aws/aws-sdk-go-v2/service/datapipeline v1.13.15
 	github.com/aws/aws-sdk-go-v2/service/devicefarm v1.13.3
 	github.com/aws/aws-sdk-go-v2/service/docdb v1.18.1
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.2.1
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.3.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.52.1
 	github.com/aws/aws-sdk-go-v2/service/ecr v1.17.16
 	github.com/aws/aws-sdk-go-v2/service/ecrpublic v1.13.8
 	github.com/aws/aws-sdk-go-v2/service/ecs v1.2.1
@@ -89,7 +89,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/servicecatalog v1.2.1
 	github.com/aws/aws-sdk-go-v2/service/ses v1.14.8
 	github.com/aws/aws-sdk-go-v2/service/sfn v1.2.1
-	github.com/aws/aws-sdk-go-v2/service/sns v1.2.1
+	github.com/aws/aws-sdk-go-v2/service/sns v1.17.17
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.3.0
 	github.com/aws/aws-sdk-go-v2/service/ssm v1.3.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.16.13
@@ -139,7 +139,6 @@ require (
 	github.com/microsoft/azure-devops-go-api/azuredevops v1.0.0-b5
 	github.com/mrparkers/terraform-provider-keycloak v0.0.0-20200506151941-509881368409
 	github.com/nicksnyder/go-i18n v1.10.1 // indirect
-	github.com/ns1/ns1-go v2.4.0+incompatible
 	github.com/okta/okta-sdk-golang/v2 v2.12.2-0.20220602195034-d7ea6917663f
 	github.com/opencontainers/image-spec v1.0.1 // indirect
 	github.com/opencontainers/runc v1.0.1 // indirect
@@ -316,7 +315,7 @@ require (
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 	golang.org/x/net v0.0.0-20220412020605-290c469a71a5 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220503163025-988cb79eb6c6 // indirect
+	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858 // indirect
 	golang.org/x/tools v0.1.8 // indirect
@@ -350,6 +349,7 @@ require (
 	github.com/DataDog/datadog-api-client-go/v2 v2.1.0
 	github.com/Myra-Security-GmbH/myrasec-go/v2 v2.19.0
 	github.com/manicminer/hamilton v0.44.0
+	gopkg.in/ns1/ns1-go.v2 v2.6.5
 )
 
 require (
@@ -374,3 +374,5 @@ require (
 )
 
 replace gopkg.in/jarcoal/httpmock.v1 => github.com/jarcoal/httpmock v1.0.5
+
+replace gopkg.in/ns1/ns1-go.v2 => github.com/ns1/ns1-go/v2 v2.6.5

@@ -18,42 +18,30 @@ import (
 	"os"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	bluemix "github.com/IBM-Cloud/bluemix-go"
+	"github.com/IBM-Cloud/bluemix-go"
 	"github.com/IBM-Cloud/bluemix-go/api/resource/resourcev1/catalog"
 	"github.com/IBM-Cloud/bluemix-go/api/resource/resourcev2/controllerv2"
 	"github.com/IBM-Cloud/bluemix-go/session"
 )
 
-// DatabaseRabbitMQGenerator ...
-type DatabaseRabbitMQGenerator struct {
+// LogAnalysisGenerator ..
+type LogAnalysisGenerator struct {
 	IBMService
 }
 
-// loadRabbitMQDB ...
-func (g DatabaseRabbitMQGenerator) loadRabbitMQDB(dbID string, dbName string) terraformutils.Resource {
-	resource := terraformutils.NewSimpleResource(
-		dbID,
-		normalizeResourceName(dbName, false),
-		"ibm_database",
+// loadCloudMonitoring ..
+func (g LogAnalysisGenerator) loadCloudMonitoring(logID string, logName string) terraformutils.Resource {
+	resources := terraformutils.NewSimpleResource(
+		logID,
+		normalizeResourceName(logName, false),
+		"ibm_resource_instance",
 		"ibm",
 		[]string{})
-
-	resource.IgnoreKeys = append(resource.IgnoreKeys,
-		"^node_count$",
-		"^members_memory_allocation_mb$",
-		"^node_memory_allocation_mb$",
-		"^members_disk_allocation_mb$",
-		"^members_cpu_allocation_count$",
-		"^node_cpu_allocation_count$",
-		"^node_disk_allocation_mb$",
-	)
-
-	return resource
+	return resources
 }
 
 // InitResources ...
-func (g *DatabaseRabbitMQGenerator) InitResources() error {
-
+func (g *LogAnalysisGenerator) InitResources() error {
 	region := g.Args["region"].(string)
 	bmxConfig := &bluemix.Config{
 		BluemixAPIKey: os.Getenv("IC_API_KEY"),
@@ -74,20 +62,21 @@ func (g *DatabaseRabbitMQGenerator) InitResources() error {
 		return err
 	}
 
-	serviceID, err := catalogClient.ResourceCatalog().FindByName("messages-for-rabbitmq", true)
+	serviceID, err := catalogClient.ResourceCatalog().FindByName("logdna", true)
 	if err != nil {
 		return err
 	}
 	query := controllerv2.ServiceInstanceQuery{
 		ServiceID: serviceID[0].ID,
 	}
-	rabbitmqInstances, err := controllerClient.ResourceServiceInstanceV2().ListInstances(query)
+	logAnalysisInstances, err := controllerClient.ResourceServiceInstanceV2().ListInstances(query)
 	if err != nil {
 		return err
 	}
-	for _, db := range rabbitmqInstances {
-		if db.RegionID == region {
-			g.Resources = append(g.Resources, g.loadRabbitMQDB(db.ID, db.Name))
+
+	for _, logDNA := range logAnalysisInstances {
+		if logDNA.RegionID == region {
+			g.Resources = append(g.Resources, g.loadCloudMonitoring(logDNA.ID, logDNA.Name))
 		}
 	}
 

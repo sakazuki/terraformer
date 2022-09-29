@@ -18,42 +18,30 @@ import (
 	"os"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	bluemix "github.com/IBM-Cloud/bluemix-go"
+	"github.com/IBM-Cloud/bluemix-go"
 	"github.com/IBM-Cloud/bluemix-go/api/resource/resourcev1/catalog"
 	"github.com/IBM-Cloud/bluemix-go/api/resource/resourcev2/controllerv2"
 	"github.com/IBM-Cloud/bluemix-go/session"
 )
 
-// DatabaseRabbitMQGenerator ...
-type DatabaseRabbitMQGenerator struct {
+// WatsonMachineLearningGenerator ..
+type WatsonMachineLearningGenerator struct {
 	IBMService
 }
 
-// loadRabbitMQDB ...
-func (g DatabaseRabbitMQGenerator) loadRabbitMQDB(dbID string, dbName string) terraformutils.Resource {
-	resource := terraformutils.NewSimpleResource(
-		dbID,
-		normalizeResourceName(dbName, false),
-		"ibm_database",
+// loadWatsonMachineLearning ..
+func (g WatsonMachineLearningGenerator) loadWatsonMachineLearning(wmlID string, wmlName string) terraformutils.Resource {
+	resources := terraformutils.NewSimpleResource(
+		wmlID,
+		normalizeResourceName(wmlName, false),
+		"ibm_resource_instance",
 		"ibm",
 		[]string{})
-
-	resource.IgnoreKeys = append(resource.IgnoreKeys,
-		"^node_count$",
-		"^members_memory_allocation_mb$",
-		"^node_memory_allocation_mb$",
-		"^members_disk_allocation_mb$",
-		"^members_cpu_allocation_count$",
-		"^node_cpu_allocation_count$",
-		"^node_disk_allocation_mb$",
-	)
-
-	return resource
+	return resources
 }
 
 // InitResources ...
-func (g *DatabaseRabbitMQGenerator) InitResources() error {
-
+func (g *WatsonMachineLearningGenerator) InitResources() error {
 	region := g.Args["region"].(string)
 	bmxConfig := &bluemix.Config{
 		BluemixAPIKey: os.Getenv("IC_API_KEY"),
@@ -74,20 +62,21 @@ func (g *DatabaseRabbitMQGenerator) InitResources() error {
 		return err
 	}
 
-	serviceID, err := catalogClient.ResourceCatalog().FindByName("messages-for-rabbitmq", true)
+	serviceID, err := catalogClient.ResourceCatalog().FindByName("pm-20", true)
 	if err != nil {
 		return err
 	}
 	query := controllerv2.ServiceInstanceQuery{
 		ServiceID: serviceID[0].ID,
 	}
-	rabbitmqInstances, err := controllerClient.ResourceServiceInstanceV2().ListInstances(query)
+	machineLearningInstances, err := controllerClient.ResourceServiceInstanceV2().ListInstances(query)
 	if err != nil {
 		return err
 	}
-	for _, db := range rabbitmqInstances {
-		if db.RegionID == region {
-			g.Resources = append(g.Resources, g.loadRabbitMQDB(db.ID, db.Name))
+
+	for _, wml := range machineLearningInstances {
+		if wml.RegionID == region {
+			g.Resources = append(g.Resources, g.loadWatsonMachineLearning(wml.ID, wml.Name))
 		}
 	}
 
